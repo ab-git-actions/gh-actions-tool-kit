@@ -16,3 +16,9 @@ dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
+
+[tool.setuptools]
+packages = ["actions_core"]
+
+[project.scripts]
+actions-core = "actions_core.__main__:main"
