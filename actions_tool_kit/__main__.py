@@ -3,7 +3,7 @@ from __future__ import annotations
 import sys
 import argparse
 from pathlib import Path
-from .core import (
+from actions_core import (
     notice, warning, error, debug,
     get_input, set_output, export_variable,
     set_secret, append_summary, group
