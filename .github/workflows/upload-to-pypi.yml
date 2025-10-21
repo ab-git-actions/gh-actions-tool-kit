@@ -1,0 +1,57 @@
+name: Publish Python 🐍 distribution 📦 to PyPI
+
+on:
+  release:
+    types: [published]     # publish when you publish a GitHub Release
+  workflow_dispatch:       # allow manual runs
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build dist 📦
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build backend
+        run: |
+          python -m pip install -U pip
+          pip install build
+
+      - name: Build sdist/wheel
+        run: python -m build
+
+      - name: Upload built dists
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+
+  publish:
+    name: Upload Python 🐍 distribution 📦 to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    # Trusted Publishing requires OIDC token permission
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: pypi
+      # Optional but nice: link the env to your project page
+      url: https://pypi.org/p/ab-git-actions
+    steps:
+      - name: Download dists
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist
+
+      - name: Publish to PyPI (Trusted Publisher)
+        uses: pypa/gh-action-pypi-publish@release/v1
