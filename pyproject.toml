@@ -4,12 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gh-actions-tool-kit"
-version = "0.1.1"
-description = "Tiny @actions/core-style helpers for Python GitHub Actions"
+version = "0.1.0"
+description = "Tiny actions/core-style helpers for Python GitHub Actions"
 readme = "README.md"
 requires-python = ">=3.8"
-authors = [{name="Your Name"}]
+authors = [{name="Akash B"}]
+maintainers = [
+  {name = "Akash B", email = "akashbasa8@gmail.com"}
+]
 license = {text = "MIT"}
+license-files = ["LICENSE.md"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
