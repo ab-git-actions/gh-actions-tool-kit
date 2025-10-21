@@ -13,7 +13,7 @@ maintainers = [
   {name = "Akash B", email = "akashbasa8@gmail.com"}
 ]
 license = "MIT"
-license-files = ["LICENSE.md"]
+license-files = ["LICENSE"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
@@ -22,7 +22,7 @@ dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
 addopts = "-q"
 
 [tool.setuptools]
-packages = ["actions_core"]
+packages = ["actions_tool_kit"]
 
 [project.scripts]
-actions-core = "actions_core.__main__:main"
+actions-core = "actions_tool_kit.__main__:main"
