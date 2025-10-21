@@ -14,6 +14,10 @@ pip install gh-actions-tool-kit
 ### Usage
 
 ```python
+# ================================
+# greeting.py
+# ================================
+
 from actions_core import get_input, set_output, notice, group
 
 def main() -> None:
@@ -44,7 +48,7 @@ jobs:
       - name: Run Python Action
         env:
           name: <your name>
-        run: python -m actions_core
+        run: python greeting.py
 ```
 
 ## 🧩 Features
