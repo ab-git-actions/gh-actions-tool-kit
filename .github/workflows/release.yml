@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@v5
         
       - name: Create Git Release
-        uses: ab-git-actions/gh-release@v1
+        uses: ab-git-actions/gh-release@v1.0.3
         env:
           github_token: '${{ secrets.GH_TOKEN }}'
