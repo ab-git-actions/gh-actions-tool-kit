@@ -12,7 +12,7 @@ authors = [{name="Akash B"}]
 maintainers = [
   {name = "Akash B", email = "akashbasa8@gmail.com"}
 ]
-license = {text = "MIT"}
+license = "MIT"
 license-files = ["LICENSE.md"]
 
 [project.optional-dependencies]
