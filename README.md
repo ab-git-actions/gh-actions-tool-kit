@@ -18,7 +18,7 @@ pip install gh-actions-tool-kit
 # greeting.py
 # ================================
 
-from actions_core import get_input, set_output, notice, group
+from actions_tool_kit import get_input, set_output, notice, group
 
 def main() -> None:
     name = get_input("name", required=True)
