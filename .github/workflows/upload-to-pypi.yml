@@ -1,8 +1,9 @@
 name: Publish Python 🐍 distribution 📦 to PyPI
 
 on:
-  release:
-    types: [published]     # publish when you publish a GitHub Release
+  push:x
+    tags:
+      - "*"    # publish when you publish a GitHub Release
   workflow_dispatch:       # allow manual runs
 
 permissions:
