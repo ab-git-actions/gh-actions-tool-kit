@@ -1,5 +1,6 @@
 # actions_core.py
 # Minimal Python equivalent of @actions/core for GitHub Actions (typed + docstrings)
+
 from __future__ import annotations
 
 import os
