@@ -14,15 +14,14 @@ maintainers = [
 ]
 license = "MIT"
 license-files = ["LICENSE"]
+dependencies = [
+  "PyGithub>=2.2.0,<2.8.1"
+]
 
 [tool.setuptools_scm]
 # Basic config https://setuptools-scm.readthedocs.io/en/latest/
 version_scheme = "only-version"
 local_scheme   = "no-local-version"
-
-dependencies = [
-  "PyGithub>=2.2.0,<2.8.1"
-]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
