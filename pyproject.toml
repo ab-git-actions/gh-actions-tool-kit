@@ -20,6 +20,10 @@ license-files = ["LICENSE"]
 version_scheme = "only-version"
 local_scheme   = "no-local-version"
 
+dependencies = [
+  "PyGithub>=2.2.0,<2.8.1"
+]
+
 [project.optional-dependencies]
 dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
 
@@ -31,3 +35,7 @@ packages = ["actions_tool_kit"]
 
 [project.scripts]
 actions-core = "actions_tool_kit.__main__:main"
+
+testpaths = [
+    "tests"
+]
