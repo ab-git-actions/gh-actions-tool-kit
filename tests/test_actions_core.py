@@ -1,10 +1,8 @@
-import os
 from pathlib import Path
-from typing import Callable
 
 import pytest
 
-import actions_core as core
+from actions_tool_kit import actions_core as core
 
 
 def test_get_input_required_and_default(monkeypatch: pytest.MonkeyPatch) -> None:
