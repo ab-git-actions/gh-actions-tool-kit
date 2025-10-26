@@ -375,6 +375,7 @@ __all__ = [
     "warning",
     "error",
     "set_failed",
+    "fail_action",
     "start_group",
     "end_group",
     "group",
