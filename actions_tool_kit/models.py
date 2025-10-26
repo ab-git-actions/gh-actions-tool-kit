@@ -11,6 +11,7 @@ class RepoIdentifier:
         owner (str): The GitHub username or organization that owns the repository.
         repo (str): The name of the repository.
     """
+
     owner: str
     repo: str
 
@@ -25,6 +26,7 @@ class IssueIdentifier:
         repo (str): The name of the repository.
         number (int): The issue number.
     """
+
     owner: str
     repo: str
     number: int
@@ -40,6 +42,7 @@ class PullRequestIdentifier:
         repo (str): The name of the repository.
         number (int): The pull request number.
     """
+
     owner: str
     repo: str
     number: int
@@ -55,6 +58,7 @@ class Sender:
         type (Optional[str]): Type of the sender (e.g., 'User', 'Bot', etc.).
         extra (Dict[str, Any]): Any additional fields not explicitly mapped.
     """
+
     login: str
     type: Optional[str] = None
     extra: Dict[str, Any] = field(default_factory=dict)
@@ -70,6 +74,7 @@ class RepoOwner:
         name (Optional[str]): Optional display name of the owner.
         extra (Dict[str, Any]): Additional unmapped fields from the payload.
     """
+
     login: str
     name: Optional[str] = None
     extra: Dict[str, Any] = field(default_factory=dict)
@@ -87,6 +92,7 @@ class PayloadRepository:
         html_url (Optional[str]): URL to the GitHub repository.
         extra (Dict[str, Any]): Any extra unmapped fields in the payload.
     """
+
     name: str
     owner: RepoOwner
     full_name: Optional[str] = None
@@ -109,6 +115,7 @@ class WebhookPayload:
         comment (Optional[Dict[str, Any]]): Comment data if the event involves comments.
         extra (Dict[str, Any]): Any additional unmapped fields from the payload.
     """
+
     repository: Optional[PayloadRepository] = None
     issue: Optional[Dict[str, Any]] = None
     pull_request: Optional[Dict[str, Any]] = None
