@@ -87,3 +87,12 @@ def test_set_secret_masks_in_logs(capsys: pytest.CaptureFixture[str]) -> None:
     core.set_secret("supersecret")
     out = capsys.readouterr().out
     assert "::add-mask::supersecret" in out
+
+def test_set_failed_no_exit():
+    # set_failed(exit=False) logs but does not exit
+    core.set_failed("Logged error only", fail=False)
+
+def test_fail_now():
+    with pytest.raises(SystemExit) as ex:
+        core.fail_action("Immediate fail")
+    assert ex.value.code == 1

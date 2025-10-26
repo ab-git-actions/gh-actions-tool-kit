@@ -8,6 +8,7 @@ import sys
 from contextlib import contextmanager
 from typing import Any, ContextManager, Iterable, Optional, Union
 
+
 def _file_from_env(var: str) -> Optional[str]:
     """Return the path from an env var if set and non-empty, else None.
 
@@ -20,6 +21,7 @@ def _file_from_env(var: str) -> Optional[str]:
     p: Optional[str] = os.getenv(var)
     return p if p and p.strip() else None
 
+
 def _append_line(filepath: str, line: str) -> None:
     """Append a single line to a file, ensuring a trailing newline.
 
@@ -30,6 +32,7 @@ def _append_line(filepath: str, line: str) -> None:
     with open(filepath, "a", encoding="utf-8") as f:
         f.write(line.rstrip("\n") + "\n")
 
+
 def _serialize_props(**props: Any) -> str:
     """Serialize command properties per workflow command format with escaping.
 
@@ -39,6 +42,7 @@ def _serialize_props(**props: Any) -> str:
     Returns:
         A string like " key=val,key2=val2" or empty string if no props.
     """
+
     def esc(val: Any) -> str:
         s = str(val)
         return (
@@ -54,6 +58,7 @@ def _serialize_props(**props: Any) -> str:
     ]
     return " " + ",".join(items) if items else ""
 
+
 def _escape_msg(msg: Union[str, Any]) -> str:
     """Escape a command message payload per GH runner rules.
 
@@ -66,6 +71,7 @@ def _escape_msg(msg: Union[str, Any]) -> str:
     s = str(msg)
     return s.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
 
+
 def _cmd(command: str, message: str = "", **props: Any) -> None:
     """Emit a raw workflow command to stdout.
 
@@ -74,8 +80,11 @@ def _cmd(command: str, message: str = "", **props: Any) -> None:
         message: Optional message body.
         **props: Optional command properties such as title=, file=, line=.
     """
-    sys.stdout.write(f"::{command}{_serialize_props(**props)}::{_escape_msg(message)}\n")
+    sys.stdout.write(
+        f"::{command}{_serialize_props(**props)}::{_escape_msg(message)}\n"
+    )
     sys.stdout.flush()
+
 
 # ---------- inputs ----------
 def get_input(
@@ -110,6 +119,7 @@ def get_input(
         return ""
     return val.strip() if trim else val
 
+
 def get_boolean_input(
     name: str,
     *,
@@ -133,6 +143,7 @@ def get_boolean_input(
     val: str = get_input(name, required=required, trim=trim, default=default)
     return val.strip().lower() in {"1", "true", "t", "yes", "y", "on"}
 
+
 # ---------- outputs / env / path / state / summary ----------
 def set_output(name: str, value: Union[str, int, float, bool]) -> None:
     """Set a step output using $GITHUB_OUTPUT, with legacy fallback.
@@ -148,6 +159,7 @@ def set_output(name: str, value: Union[str, int, float, bool]) -> None:
         return
     _append_line(path, f"{name}={v}")
 
+
 def export_variable(name: str, value: Union[str, int, float, bool]) -> None:
     """Export an environment variable for subsequent steps.
 
@@ -162,6 +174,7 @@ def export_variable(name: str, value: Union[str, int, float, bool]) -> None:
         return
     _append_line(path, f"{name}={v}")
 
+
 def add_path(input_path: str) -> None:
     """Prepend a path to the runner PATH for subsequent steps.
 
@@ -173,6 +186,7 @@ def add_path(input_path: str) -> None:
         os.environ["PATH"] = f"{input_path}{os.pathsep}{os.environ.get('PATH','')}"
         return
     _append_line(path, input_path)
+
 
 def save_state(name: str, value: Union[str, int, float, bool]) -> None:
     """Persist state for the post-step using $GITHUB_STATE (runner-managed).
@@ -192,6 +206,7 @@ def save_state(name: str, value: Union[str, int, float, bool]) -> None:
         return
     _append_line(path, f"{name}={v}")
 
+
 def get_state(name: str) -> str:
     """Return locally saved state (testing fallback only).
 
@@ -207,6 +222,7 @@ def get_state(name: str) -> str:
     """
     return os.getenv(f"STATE_{name}", "")
 
+
 def set_secret(secret: str) -> None:
     """Mask a secret in the logs using 'add-mask' command.
 
@@ -214,6 +230,7 @@ def set_secret(secret: str) -> None:
         secret: The sensitive string to mask.
     """
     _cmd("add-mask", secret)
+
 
 def append_summary(markdown: Union[str, Iterable[str]]) -> None:
     """Append markdown to the step summary panel.
@@ -228,16 +245,22 @@ def append_summary(markdown: Union[str, Iterable[str]]) -> None:
     body: str = "".join(markdown) if not isinstance(markdown, str) else markdown
     path: Optional[str] = _file_from_env("GITHUB_STEP_SUMMARY")
     if not path:
-        sys.stdout.write("\n--- STEP SUMMARY (local) ---\n" + body + "\n----------------------------\n")
+        sys.stdout.write(
+            "\n--- STEP SUMMARY (local) ---\n"
+            + body
+            + "\n----------------------------\n"
+        )
         sys.stdout.flush()
         return
     with open(path, "a", encoding="utf-8") as f:
         f.write(body)
 
+
 # ---------- logging / annotations ----------
 def debug(message: Union[str, Any]) -> None:
     """Emit a debug annotation (visible when step debug is enabled)."""
     _cmd("debug", str(message))
+
 
 def notice(
     message: Union[str, Any],
@@ -258,6 +281,7 @@ def notice(
     """
     _cmd("notice", str(message), title=title, file=file, line=line, col=col)
 
+
 def warning(
     message: Union[str, Any],
     *,
@@ -268,6 +292,7 @@ def warning(
 ) -> None:
     """Emit a warning annotation (yellow)."""
     _cmd("warning", str(message), title=title, file=file, line=line, col=col)
+
 
 def error(
     message: Union[str, Any],
@@ -280,22 +305,45 @@ def error(
     """Emit an error annotation (red)."""
     _cmd("error", str(message), title=title, file=file, line=line, col=col)
 
-def set_failed(message: Union[str, Any]) -> None:
+
+def set_failed(message: Union[str, Any], fail: bool = False) -> None:
     """Mark the step as failed by emitting an error annotation.
 
-    Note:
+     Note:
         This function does NOT exit the process. Callers may raise or sys.exit(1).
+        GitHub Annotations (`::error::`) DO NOT fail the step by themselves.
+        Exiting with a non-zero status is required to fail the job.
+
+    Args:
+        message: The failure message.
+        fail: If True (default), raise SystemExit(1) to fail the step.
     """
     error(str(message))
+    if fail:
+        raise SystemExit(1)
+
+
+def fail_action(message: Union[str, Any]) -> None:
+    """
+    Emit an error annotation and immediately exit the process with status 1.
+    Args:
+        message:
+    Returns:
+        The failure message.
+    """
+    error(str(message))
+    raise SystemExit(1)
 
 # ---------- groups ----------
 def start_group(name: str) -> None:
     """Start a collapsible log group with the given name."""
     _cmd("group", name)
 
+
 def end_group() -> None:
     """End the current collapsible log group."""
     _cmd("endgroup")
+
 
 @contextmanager
 def group(name: str) -> ContextManager[None]:
@@ -310,6 +358,7 @@ def group(name: str) -> ContextManager[None]:
         yield
     finally:
         end_group()
+
 
 __all__ = [
     "get_input",
@@ -326,6 +375,7 @@ __all__ = [
     "warning",
     "error",
     "set_failed",
+    "fail_action",
     "start_group",
     "end_group",
     "group",

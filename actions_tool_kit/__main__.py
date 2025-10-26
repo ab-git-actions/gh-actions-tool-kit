@@ -4,13 +4,23 @@ import sys
 import argparse
 from pathlib import Path
 from actions_core import (
-    notice, warning, error, debug,
-    get_input, set_output, export_variable,
-    set_secret, append_summary, group
+    notice,
+    warning,
+    error,
+    debug,
+    get_input,
+    set_output,
+    export_variable,
+    set_secret,
+    append_summary,
+    group,
 )
 
+
 def main() -> int:
-    parser = argparse.ArgumentParser(prog="actions_core", description="Tiny @actions/core-style CLI (Python)")
+    parser = argparse.ArgumentParser(
+        prog="actions_core", description="Tiny @actions/core-style CLI (Python)"
+    )
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_notice = sub.add_parser("notice", help="Emit a notice")
@@ -60,11 +70,17 @@ def main() -> int:
     args = parser.parse_args()
 
     if args.cmd == "notice":
-        notice(args.message, title=args.title, file=args.file, line=args.line, col=args.col)
+        notice(
+            args.message, title=args.title, file=args.file, line=args.line, col=args.col
+        )
     elif args.cmd == "warning":
-        warning(args.message, title=args.title, file=args.file, line=args.line, col=args.col)
+        warning(
+            args.message, title=args.title, file=args.file, line=args.line, col=args.col
+        )
     elif args.cmd == "error":
-        error(args.message, title=args.title, file=args.file, line=args.line, col=args.col)
+        error(
+            args.message, title=args.title, file=args.file, line=args.line, col=args.col
+        )
     elif args.cmd == "debug":
         debug(args.message)
     elif args.cmd == "get-input":
@@ -91,6 +107,7 @@ def main() -> int:
                 sys.stdout.write(line)
             sys.stdout.flush()
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

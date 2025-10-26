@@ -25,14 +25,18 @@ def parse_payload(data: dict) -> WebhookPayload:
         owner = RepoOwner(
             login=owner_data.get("login", ""),
             name=owner_data.get("name"),
-            extra={k: v for k, v in owner_data.items() if k not in {"login", "name"}}
+            extra={k: v for k, v in owner_data.items() if k not in {"login", "name"}},
         )
         repo = PayloadRepository(
             name=repository.get("name", ""),
             owner=owner,
             full_name=repository.get("full_name"),
             html_url=repository.get("html_url"),
-            extra={k: v for k, v in repository.items() if k not in {"name", "owner", "full_name", "html_url"}}
+            extra={
+                k: v
+                for k, v in repository.items()
+                if k not in {"name", "owner", "full_name", "html_url"}
+            },
         )
     else:
         repo = None
@@ -44,7 +48,7 @@ def parse_payload(data: dict) -> WebhookPayload:
         sender = Sender(
             login=sender_data.get("login", ""),
             type=sender_data.get("type"),
-            extra={k: v for k, v in sender_data.items() if k not in {"login", "type"}}
+            extra={k: v for k, v in sender_data.items() if k not in {"login", "type"}},
         )
 
     # --- Construct WebhookPayload ---
@@ -56,7 +60,18 @@ def parse_payload(data: dict) -> WebhookPayload:
         action=data.get("action"),
         installation=data.get("installation"),
         comment=data.get("comment"),
-        extra={k: v for k, v in data.items() if k not in {
-            "repository", "issue", "pull_request", "sender", "action", "installation", "comment"
-        }}
+        extra={
+            k: v
+            for k, v in data.items()
+            if k
+            not in {
+                "repository",
+                "issue",
+                "pull_request",
+                "sender",
+                "action",
+                "installation",
+                "comment",
+            }
+        },
     )

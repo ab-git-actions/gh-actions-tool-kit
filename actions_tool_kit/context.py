@@ -3,7 +3,13 @@ import json
 from pathlib import Path
 from typing import Optional, Dict, Any
 
-from .models import WebhookPayload, RepoIdentifier, IssueIdentifier, PullRequestIdentifier, Sender
+from .models import (
+    WebhookPayload,
+    RepoIdentifier,
+    IssueIdentifier,
+    PullRequestIdentifier,
+    Sender,
+)
 from .payload_parser import parse_payload
 
 
@@ -14,6 +20,7 @@ class Context:
     Initializes values from environment variables and event JSON payload for ease of access
     to repository, issue, PR, and workflow information inside a GitHub Actions workflow.
     """
+
     def __init__(self):
         """
         Initialize context by loading event payload and environment variables.
@@ -43,7 +50,9 @@ class Context:
         self.run_id = int(os.getenv("GITHUB_RUN_ID", "0"))
         self.api_url = os.getenv("GITHUB_API_URL", "https://api.github.com")
         self.server_url = os.getenv("GITHUB_SERVER_URL", "https://github.com")
-        self.graphql_url = os.getenv("GITHUB_GRAPHQL_URL", "https://api.github.com/graphql")
+        self.graphql_url = os.getenv(
+            "GITHUB_GRAPHQL_URL", "https://api.github.com/graphql"
+        )
 
     @property
     def repo(self) -> RepoIdentifier:
@@ -65,10 +74,12 @@ class Context:
         if self.payload.repository:
             return RepoIdentifier(
                 owner=self.payload.repository.owner.login,
-                repo=self.payload.repository.name
+                repo=self.payload.repository.name,
             )
 
-        raise RuntimeError("context.repo requires a GITHUB_REPOSITORY environment variable like 'owner/repo'")
+        raise RuntimeError(
+            "context.repo requires a GITHUB_REPOSITORY environment variable like 'owner/repo'"
+        )
 
     @property
     def issue(self) -> IssueIdentifier:
@@ -109,7 +120,7 @@ class Context:
             return PullRequestIdentifier(
                 owner=self.repo.owner,
                 repo=self.repo.repo,
-                number=self.payload.pull_request["number"]
+                number=self.payload.pull_request["number"],
             )
         return None
 
