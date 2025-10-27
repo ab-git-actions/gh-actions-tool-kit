@@ -35,7 +35,7 @@ jobs:
         run: python -m build
 
       - name: Upload built dists
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dist
           path: dist/*
@@ -54,7 +54,7 @@ jobs:
       url: https://pypi.org/p/ab-git-actions
     steps:
       - name: Download dists
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
