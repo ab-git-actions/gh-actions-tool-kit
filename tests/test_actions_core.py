@@ -60,6 +60,7 @@ def test_add_path(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_state_local_fallback(monkeypatch: pytest.MonkeyPatch) -> None:
     # No GITHUB_STATE -> uses local fallback
+    monkeypatch.delenv("GITHUB_STATE", raising=False)
     core.save_state("TOKEN", "abc")
     assert core.get_state("TOKEN") == "abc"
 
