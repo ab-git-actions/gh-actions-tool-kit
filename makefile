@@ -1,8 +1,7 @@
 setup-env:
 	@echo "🧪 Setting up env..."
 	python -m pip install --upgrade pip
-    pip install pipenv pytest coverage pytest-cov
-# 	pipenv install --dev
+  pip install pipenv pytest coverage pytest-cov
 	@echo "✅ Setup completed."
 
 run-pytest:
