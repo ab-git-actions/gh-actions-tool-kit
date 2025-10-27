@@ -24,7 +24,7 @@ version_scheme = "only-version"
 local_scheme   = "no-local-version"
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "mypy>=1.10", "types-setuptools"]
+dev = ["pytest>=8", "pytest-cov", "coverage","mypy>=1.10", "types-setuptools"]
 
 [tool.pytest.ini_options]
 addopts = "-q"
