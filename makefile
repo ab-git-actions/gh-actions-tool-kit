@@ -1,10 +1,10 @@
 setup-env:
-	@echo "🧪 Setting up env..."
+	@echo "🧪 Setting up development environment..."
 	python -m pip install --upgrade pip
-	pip install pipenv pytest coverage pytest-cov
-	@echo "✅ Setup completed."
+	pip install -e .[dev]
+	@echo "✅ Environment ready."
 
 run-pytest:
 	@echo "🧪 Running unit tests..."
-	pipenv run pytest --cov-report xml:coverage.xml --cov=. --cov-report=term-missing tests --junitxml=report.xml
+	pytest --cov-report xml:coverage.xml --cov=. --cov-report=term-missing tests --junitxml=report.xml
 	@echo "✅ Unit tests completed."
