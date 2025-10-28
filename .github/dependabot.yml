@@ -1,0 +1,35 @@
+version: 2
+updates:
+  # Python dependencies (requirements.txt or pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/" # Location of your pyproject.toml
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-type: "all" # Update both direct and indirect dependencies
+    ignore:
+      - dependency-name: "PyGithub"
+        versions: ["<2.2.0"] # already handled in your pinned range
+    open-pull-requests-limit: 10
+    rebase-strategy: "auto"
+    reviewers:
+      - "akashbasa"
+    labels:
+      - "dependencies"
+      - "automated-update"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+
+  # GitHub Actions workflow updates
+  - package-ecosystem: "github-actions"
+    directory: "/" # Root of your workflow files
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "ci"
+      - "dependencies"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
